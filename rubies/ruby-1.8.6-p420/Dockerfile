@@ -17,10 +17,10 @@ RUN \
   sudo ./install.sh
 
 # Install Ruby
-RUN /usr/local/bin/ruby-install ruby-1.8.6-p420
+RUN /usr/local/bin/ruby-build 1.8.6-p420 ~/ruby-1.8.6
 
 # Set $PATH so that non-login shells will see the Ruby binaries
-ENV PATH /opt/rubies/ruby-1.8.6-p420/bin:$PATH
+ENV PATH /root/ruby-1.8.6/bin:$PATH
 
 # Add Ruby binaries to login shells's $PATH
-COPY ./ruby.sh /etc/profile.d/ruby.sh
+#COPY ./ruby.sh /etc/profile.d/ruby.sh

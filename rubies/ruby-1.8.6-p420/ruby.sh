@@ -1,1 +1,1 @@
-export PATH="$PATH:/opt/rubies/ruby-1.8.6-p420/bin"
+export PATH="/root/ruby-1.8.6/bin:$PATH"
