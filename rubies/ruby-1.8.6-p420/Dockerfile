@@ -3,23 +3,21 @@ MAINTAINER Abe Voelker <abe@abevoelker.com>
 
 RUN \
 # Install build dependencies
+  echo 'deb http://old-releases.ubuntu.com/ubuntu lucid-security main' | sudo tee /etc/apt/sources.list.d/lucid-security.list &&\
   apt-get update &&\
+  sudo apt-get install -y zlib1g-dev &&\
+  sudo apt-get install -y -t lucid-security libssl-dev &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  ruby wget build-essential &&\
+  wget build-essential libyaml-dev libxml2-dev libxslt1-dev libreadline-dev git &&\
+
 # Install ruby-install
   cd /tmp &&\
-  wget -O ruby-install-0.5.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.5.0.tar.gz &&\
-  tar -xzvf ruby-install-0.5.0.tar.gz &&\
-  cd ruby-install-0.5.0/ &&\
-  make install &&\
+  git clone https://github.com/rbenv/ruby-build.git &&\
+  cd ruby-build &&\
+  sudo ./install.sh
+
 # Install Ruby
-  ruby-install ruby 1.8.6-p420 &&\
-# Install bundler globally
-  PATH=/opt/rubies/ruby-1.8.6-p420/bin:$PATH gem install bundler &&\
-# Remove build dependencies, clean up APT and temp files
-  apt-get clean &&\
-  DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y ruby wget build-essential &&\
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN /usr/local/bin/ruby-install ruby-1.8.6-p420
 
 # Set $PATH so that non-login shells will see the Ruby binaries
 ENV PATH /opt/rubies/ruby-1.8.6-p420/bin:$PATH
